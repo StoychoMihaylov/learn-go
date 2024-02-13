@@ -4,14 +4,14 @@ import (
 	"errors"
 	"math/rand"
 
-	"../entity"
-	"../repository"
+	"web-service-gorilla/entity"
+	"web-service-gorilla/repository"
 )
 
 type PostService interface {
 	Validate(post *entity.Post) error
 	Create(post *entity.Post) (*entity.Post, error)
-	FindAll() ([]*entity.Post, error)
+	FindAll() ([]entity.Post, error)
 }
 
 type service struct{}
@@ -42,6 +42,6 @@ func (*service) Create(post *entity.Post) (*entity.Post, error) {
 	return repo.Save(post)
 }
 
-func (*service) FindAll() ([]*entity.Post, error) {
+func (*service) FindAll() ([]entity.Post, error) {
 	return repo.FindAll()
 }

@@ -4,7 +4,8 @@ import (
 	"context"
 	"log"
 
-	"../entity"
+	"web-service-gorilla/entity"
+
 	"cloud.google.com/go/firestore"
 )
 
@@ -63,9 +64,9 @@ func (*repo) FindAll() ([]entity.Post, error) {
 			return nil, err
 		}
 		post := entity.Post{
-			ID:    doc.Data()["ID"](int64),
-			Title: doc.Data()["Title"](string),
-			Text:  doc.Data()["Text"](string),
+			ID:    doc.Data()["ID"].(int64),
+			Title: doc.Data()["Title"].(string),
+			Text:  doc.Data()["Text"].(string),
 		}
 		posts = append(posts, post)
 	}
