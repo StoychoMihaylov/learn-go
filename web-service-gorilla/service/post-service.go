@@ -4,27 +4,27 @@ import (
 	"errors"
 	"math/rand"
 
-	"web-service-gorilla/entity"
-	"web-service-gorilla/repository"
+	entities "web-service-gorilla/entities"
+	repositories "web-service-gorilla/repositories/post"
 )
 
 type PostService interface {
-	Validate(post *entity.Post) error
-	Create(post *entity.Post) (*entity.Post, error)
-	FindAll() ([]entity.Post, error)
+	Validate(post *entities.Post) error
+	Create(post *entities.Post) (*entities.Post, error)
+	FindAll() ([]entities.Post, error)
 }
 
 type service struct{}
 
 var (
-	repo repository.PostRepository = repository.NewFirestoreRepository()
+	repo repositories.PostRepository = repositories.NewFirestoreRepository()
 )
 
 func NewPostService() PostService {
 	return &service{}
 }
 
-func (*service) Validate(post *entity.Post) error {
+func (*service) Validate(post *entities.Post) error {
 	if post == nil {
 		err := errors.New("The post is empty.")
 		return err
@@ -37,11 +37,11 @@ func (*service) Validate(post *entity.Post) error {
 	return nil
 }
 
-func (*service) Create(post *entity.Post) (*entity.Post, error) {
+func (*service) Create(post *entities.Post) (*entities.Post, error) {
 	post.ID = rand.Int63()
 	return repo.Save(post)
 }
 
-func (*service) FindAll() ([]entity.Post, error) {
+func (*service) FindAll() ([]entities.Post, error) {
 	return repo.FindAll()
 }
