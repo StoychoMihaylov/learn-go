@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"web-service-gorilla/controller"
+	controller "web-service-gorilla/controller"
 	router "web-service-gorilla/http"
 )
 

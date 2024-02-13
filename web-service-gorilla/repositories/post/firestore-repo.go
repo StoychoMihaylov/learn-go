@@ -1,10 +1,10 @@
-package repository
+package repositories
 
 import (
 	"context"
 	"log"
 
-	"web-service-gorilla/entity"
+	entities "web-service-gorilla/entities"
 
 	"cloud.google.com/go/firestore"
 )
@@ -21,7 +21,7 @@ const (
 	collectionName string = "posts"
 )
 
-func (*repo) Save(post *entity.Post) (*entity.Post, error) {
+func (*repo) Save(post *entities.Post) (*entities.Post, error) {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, projectId)
 	if err != nil {
@@ -45,7 +45,7 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 	return post, nil
 }
 
-func (*repo) FindAll() ([]entity.Post, error) {
+func (*repo) FindAll() ([]entities.Post, error) {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, projectId)
 	if err != nil {
@@ -55,7 +55,7 @@ func (*repo) FindAll() ([]entity.Post, error) {
 
 	defer client.Close()
 
-	var posts []entity.Post
+	var posts []entities.Post
 	iterator := client.Collection(collectionName).Documents(ctx)
 	for {
 		doc, err := iterator.Next()
@@ -63,7 +63,7 @@ func (*repo) FindAll() ([]entity.Post, error) {
 			log.Fatal("Failed to iterate the list of posts: %v", err)
 			return nil, err
 		}
-		post := entity.Post{
+		post := entities.Post{
 			ID:    doc.Data()["ID"].(int64),
 			Title: doc.Data()["Title"].(string),
 			Text:  doc.Data()["Text"].(string),

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"web-service-gorilla/entity"
-	"web-service-gorilla/errors"
-	"web-service-gorilla/service"
+	entities "web-service-gorilla/entities"
+	errors "web-service-gorilla/errors"
+	service "web-service-gorilla/service"
 )
 
 type controller struct{}
@@ -38,7 +38,7 @@ func (*controller) GetPosts(response http.ResponseWriter, request *http.Request)
 }
 
 func (*controller) AddPost(response http.ResponseWriter, request *http.Request) {
-	var post entity.Post
+	var post entities.Post
 	err := json.NewDecoder(request.Body).Decode(&post)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
