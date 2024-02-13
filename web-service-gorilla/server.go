@@ -10,7 +10,7 @@ import (
 
 var (
 	postController controller.PostController = controller.NewPostController()
-	httpRouter     router.Router             = router.NewMuxRouter()
+	httpRouter     router.Router             = /* router.NewMuxRouter() */ router.NewChiRouter()
 )
 
 func main() {
