@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"../entity"
+	"web-service-gorilla/entity"
 )
 
 type PostRepository interface {
