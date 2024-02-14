@@ -6,11 +6,15 @@ import (
 
 	controller "web-service-gorilla/controller"
 	router "web-service-gorilla/http"
+	repositories "web-service-gorilla/repositories/post"
+	services "web-service-gorilla/services"
 )
 
 var (
-	postController controller.PostController = controller.NewPostController()
-	httpRouter     router.Router             = /* router.NewMuxRouter() */ router.NewChiRouter()
+	postRepository repositories.PostRepository = repositories.NewFirestoreRepository()
+	postService    services.PostService        = services.NewPostService(postRepository)
+	postController controller.PostController   = controller.NewPostController(postService)
+	httpRouter     router.Router               = /* router.NewMuxRouter() */ router.NewChiRouter()
 )
 
 func main() {

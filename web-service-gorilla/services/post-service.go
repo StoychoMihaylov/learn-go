@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"errors"
@@ -17,10 +17,11 @@ type PostService interface {
 type service struct{}
 
 var (
-	repo repositories.PostRepository = repositories.NewFirestoreRepository()
+	repository repositories.PostRepository
 )
 
-func NewPostService() PostService {
+func NewPostService(repository repositories.PostRepository) PostService {
+	repository = repository
 	return &service{}
 }
 
@@ -39,9 +40,9 @@ func (*service) Validate(post *entities.Post) error {
 
 func (*service) Create(post *entities.Post) (*entities.Post, error) {
 	post.ID = rand.Int63()
-	return repo.Save(post)
+	return repository.Save(post)
 }
 
 func (*service) FindAll() ([]entities.Post, error) {
-	return repo.FindAll()
+	return repository.FindAll()
 }
