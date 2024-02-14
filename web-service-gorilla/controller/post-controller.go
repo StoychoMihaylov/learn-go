@@ -6,13 +6,13 @@ import (
 
 	entities "web-service-gorilla/entities"
 	errors "web-service-gorilla/errors"
-	service "web-service-gorilla/service"
+	services "web-service-gorilla/services"
 )
 
 type controller struct{}
 
 var (
-	postService service.PostService = service.NewPostService()
+	postService services.PostService
 )
 
 type PostController interface {
@@ -20,7 +20,8 @@ type PostController interface {
 	AddPost(response http.ResponseWriter, request *http.Request)
 }
 
-func NewPostController() PostController {
+func NewPostController(service services.PostService) PostController {
+	postService = service
 	return &controller{}
 }
 
