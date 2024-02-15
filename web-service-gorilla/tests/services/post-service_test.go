@@ -17,13 +17,13 @@ type MockRepository struct {
 func (mock *MockRepository) Save(post *entities.Post) (*entities.Post, error) {
 	args := mock.Called()
 	result := args.Get(0)
-	return result.(*entities.Post), entities.Error(1)
+	return result.(*entities.Post), args.Error(1)
 }
 
 func (mock *MockRepository) FindAll() ([]entities.Post, error) {
 	args := mock.Called()
 	result := args.Get(0)
-	return result.([]entities.Post), entities.Error(1)
+	return result.([]entities.Post), args.Error(1)
 }
 
 func TestFindAll(test *testing.T) {
@@ -72,4 +72,20 @@ func TestValidateEmptyPostTitle(test *testing.T) {
 
 	assert.NotNil(test, err)
 	assert.Equal(test, "The post title is empty.", err.Error())
+}
+
+func TestCreate(test *testing.T) {
+	mockRepo := new(MockRepository)
+	post := entities.Post{Title: "A", Text: "B"}
+
+	// Setup expectations
+	mockRepo.On("Save").Return(&post, nil)
+	testService := services.NewPostService(mockRepo)
+	result, err := testService.Create(&post)
+	mockRepo.AssertExpectations(test)
+
+	assert.NotNil(test, result.ID)
+	assert.Equal(test, "A", result.Title)
+	assert.Equal(test, "B", result.Text)
+	assert.Nil(test, err)
 }
