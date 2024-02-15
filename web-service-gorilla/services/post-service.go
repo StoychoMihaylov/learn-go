@@ -43,6 +43,6 @@ func (*service) Create(post *entities.Post) (*entities.Post, error) {
 	return repository.Save(post)
 }
 
-func (*service) FindAll() ([]entities.Post, error) {
+func (s *service) FindAll() ([]entities.Post, error) {
 	return repository.FindAll()
 }
